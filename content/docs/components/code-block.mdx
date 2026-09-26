@@ -1,0 +1,119 @@
+# CodeBlock
+
+Code blocks in DocsKit Free render as clean, readable monospace text with a filename tab and a one-click copy button. What they don't have is per-token syntax coloring - that's a [DocsKit Pro](https://thekitbase.app/templates/docskit?utm_source=docskit-free&utm_medium=docs-content&utm_campaign=docskit) feature (Shiki, 100+ languages).
+
+## Basic usage
+
+Write fenced code blocks in your MDX exactly as you would in standard Markdown:
+
+````mdx
+```typescript
+function greet(name: string): string {
+  return `Hello, ${name}!`;
+}
+```
+````
+
+Renders as:
+
+```typescript
+function greet(name: string): string {
+  return `Hello, ${name}!`;
+}
+```
+
+## Filename tabs
+
+Add a filename tab by including `filename="..."` in the opening fence. This is particularly useful in tutorials where readers need to know which file to edit:
+
+````mdx
+```ts filename="src/lib/client.ts"
+import { createClient } from "@acme/sdk";
+
+export const client = createClient({
+  apiKey: process.env.ACME_API_KEY!,
+  baseUrl: "https://api.acme.dev",
+});
+```
+````
+
+Renders as:
+
+```ts filename="src/lib/client.ts"
+import { createClient } from "@acme/sdk";
+
+export const client = createClient({
+  apiKey: process.env.ACME_API_KEY!,
+  baseUrl: "https://api.acme.dev",
+});
+```
+
+The filename appears in a tab above the code. The tab is purely decorative - it does not make the block interactive or editable.
+
+## Copy button
+
+Every code block includes a copy button in the top-right corner. It copies the raw code text (without the filename) to the clipboard. The button fades to visible on hover and shows a checkmark briefly after a successful copy.
+
+The copy button is rendered client-side and does not appear in the static HTML - it's injected via a small script after page load. This means it works correctly in static export mode.
+
+<Callout variant="tip">
+  Need color-coded syntax for 100+ languages? [DocsKit Pro](https://thekitbase.app/templates/docskit?utm_source=docskit-free&utm_medium=docs-content&utm_campaign=docskit) adds Shiki highlighting to the exact same `CodeBlock` component - no migration needed if you upgrade later, since the MDX syntax is identical.
+</Callout>
+
+## Real-world example
+
+Here's a more complete example showing a TypeScript file with multiple imports, types, and async functions - the kind of snippet that appears in real API integration guides:
+
+```ts filename="src/lib/webhook-handler.ts"
+import { type IncomingMessage, type ServerResponse } from "http";
+import crypto from "crypto";
+
+const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET!;
+
+interface WebhookPayload {
+  event: "project.created" | "project.deleted" | "deploy.succeeded";
+  timestamp: number;
+  data: Record<string, unknown>;
+}
+
+function verifySignature(body: string, signature: string): boolean {
+  const expected = crypto
+    .createHmac("sha256", WEBHOOK_SECRET)
+    .update(body, "utf8")
+    .digest("hex");
+
+  return crypto.timingSafeEqual(
+    Buffer.from(signature),
+    Buffer.from(`sha256=${expected}`)
+  );
+}
+
+export async function handleWebhook(
+  req: IncomingMessage,
+  res: ServerResponse
+): Promise<void> {
+  const signature = req.headers["x-acme-signature"] as string;
+  const body = await readBody(req);
+
+  if (!verifySignature(body, signature)) {
+    res.writeHead(401);
+    res.end("Unauthorized");
+    return;
+  }
+
+  const payload: WebhookPayload = JSON.parse(body);
+  console.log(`Received event: ${payload.event}`);
+
+  res.writeHead(200);
+  res.end("OK");
+}
+
+async function readBody(req: IncomingMessage): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    req.on("data", (chunk) => chunks.push(chunk));
+    req.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+    req.on("error", reject);
+  });
+}
+```

@@ -1,0 +1,51 @@
+# Customizing
+
+DocsKit Free is meant to be forked and rebranded. Everything below is a genuine edit you can make right now - there's no hidden config gating any of it.
+
+## 1. Product name and logo
+
+Open `src/components/Logo.tsx` and change the letter and name:
+
+```tsx
+export function Logo() {
+  return (
+    <span className="flex items-center gap-2 text-sm font-bold text-[var(--foreground)]">
+      <span className="flex h-6 w-6 items-center justify-center rounded bg-[var(--primary)] text-[10px] font-bold text-white">
+        A {/* ← your initial */}
+      </span>
+      Acme Docs {/* ← your product name */}
+    </span>
+  );
+}
+```
+
+## 2. Homepage copy
+
+Open `src/app/page.tsx` and update the heading, tagline, and the `included`/`proOnly` lists to describe your own project instead of DocsKit's.
+
+## 3. Accent color
+
+The entire UI uses two CSS variables. Open `src/app/globals.css` and change:
+
+```css
+:root {
+  --primary: #8b5cf6;       /* ← your brand color */
+  --primary-hover: #7c3aed; /* ← slightly darker shade */
+}
+```
+
+Both dark and light mode update automatically - every button, active nav item, and highlight follows these two values.
+
+## 4. Site URL and metadata
+
+Set your domain in `.env.local`:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+```
+
+Update the page title and description in `src/app/page.tsx` and `src/app/layout.tsx`.
+
+<Callout variant="tip">
+  Want a full marketing homepage instead of the minimal one here - hero, features, pricing, FAQ, testimonials - along with syntax highlighting and full-text search? That's what [DocsKit Pro](https://thekitbase.app/templates/docskit?utm_source=docskit-free&utm_medium=docs-content&utm_campaign=docskit) adds on top of this same docs engine.
+</Callout>

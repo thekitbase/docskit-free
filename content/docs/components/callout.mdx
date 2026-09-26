@@ -1,0 +1,120 @@
+# Callout
+
+Callouts draw the reader's attention to information that matters - warnings before a destructive action, tips that save time, or notes that add context. DocsKit includes four variants, each with a distinct color and icon so readers can scan your content and immediately understand the priority of a message.
+
+## Variants
+
+All four variants are shown below as they appear in the rendered docs:
+
+<Callout variant="note">
+  **Note** - Use for supplementary context that is useful but not urgent. Good for explaining why something works the way it does, or pointing to related documentation.
+</Callout>
+
+<Callout variant="tip">
+  **Tip** - Use for advice, shortcuts, or best practices that make the reader's life easier. These are positive - something they might not know but will be glad they found out.
+</Callout>
+
+<Callout variant="warning">
+  **Warning** - Use when something could go wrong if the reader isn't careful. Not necessarily catastrophic, but worth slowing down for. Common uses: behavior that surprises people, configuration that doesn't work as expected, or known gotchas.
+</Callout>
+
+<Callout variant="danger">
+  **Danger** - Use for actions that are destructive and irreversible. Deleting data, revoking access tokens, breaking changes in an API upgrade, or commands that affect production. Reserve this for situations where getting it wrong has real consequences.
+</Callout>
+
+## When to use each variant
+
+Choosing the right variant makes your docs easier to scan and helps readers calibrate how much attention to pay:
+
+| Variant | Use when... | Example |
+|---------|------------|---------|
+| `note` | You have extra context that's helpful but not critical | "This behavior changed in v2.0." |
+| `tip` | You're sharing a shortcut or a better way to do something | "You can pass multiple IDs at once to batch this call." |
+| `warning` | Something can go wrong if they're not careful | "Search requires a production build - it won't work in dev." |
+| `danger` | The action is irreversible or affects production | "Running this command drops all tables in the database." |
+
+A common mistake is overusing `warning` and `danger`. If everything is a warning, nothing is. Save them for moments where the risk is real.
+
+## Usage
+
+```mdx
+<Callout variant="note">
+  This is a note callout.
+</Callout>
+
+<Callout variant="tip">
+  This is a tip callout.
+</Callout>
+
+<Callout variant="warning">
+  This is a warning callout.
+</Callout>
+
+<Callout variant="danger">
+  This is a danger callout.
+</Callout>
+```
+
+The `variant` prop defaults to `"note"` if omitted:
+
+```mdx
+<Callout>
+  This renders as a note variant.
+</Callout>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"note" \| "warning" \| "tip" \| "danger"` | `"note"` | Controls the color, border, and icon |
+| `children` | `React.ReactNode` | Required | Content rendered inside the callout |
+
+## Rich content inside callouts
+
+The `children` prop accepts any React node, which means you can embed formatted text, inline code, and even links inside a callout. The component applies `text-sm leading-relaxed` to the content area, so paragraph text stays readable.
+
+Here's a warning callout with inline code, a link, and a list:
+
+```mdx
+<Callout variant="warning">
+  **Before migrating to v3**, read the [breaking changes guide](/docs/guides/v3-migration).
+
+  The following defaults changed:
+
+  - `timeout` now defaults to `5000ms` (was `30000ms`)
+  - `retries` now defaults to `3` (was `0`)
+  - The `onError` callback signature changed - it now receives `(error, attempt)` instead of `(error)`
+</Callout>
+```
+
+Which renders as:
+
+<Callout variant="warning">
+  **Before migrating to v3**, read the breaking changes guide.
+
+  The following defaults changed:
+
+  - `timeout` now defaults to `5000ms` (was `30000ms`)
+  - `retries` now defaults to `3` (was `0`)
+  - The `onError` callback signature changed - it now receives `(error, attempt)` instead of `(error)`
+</Callout>
+
+## Callouts inside Steps
+
+Callouts work inside `Step` components, which is useful for highlighting a gotcha at a specific point in a multi-step process:
+
+````mdx
+<Steps>
+  <Step title="Run the migration">
+    ```bash
+    pnpm db:migrate
+    ```
+
+    <Callout variant="danger">
+      This permanently modifies your database schema. Make sure you have a
+      recent backup before proceeding.
+    </Callout>
+  </Step>
+</Steps>
+````

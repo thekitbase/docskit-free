@@ -1,0 +1,174 @@
+# Quick Start
+
+This guide gets you from the default DocsKit template to a published docs site with your own product name and first content page. Plan for about 15 minutes of hands-on work, plus however long your deployment takes.
+
+## What you'll do
+
+1. Replace DocsKit branding with your product name
+2. Update the sidebar navigation config
+3. Write your first real MDX page
+4. Build and deploy
+
+## Step 1 - Replace the product name
+
+The product name appears in four places. Update them all before deploying:
+
+**`src/app/layout.tsx`** - The `metadata.title` template controls the `<title>` tag on every page.
+
+```tsx filename="src/app/layout.tsx"
+export const metadata: Metadata = {
+  title: {
+    template: "%s | Acme Docs",
+    default: "Acme Docs - Documentation",
+  },
+  description: "Official documentation for Acme - the fastest way to ship.",
+};
+```
+
+**`src/app/page.tsx`** - The homepage heading and tagline:
+
+```tsx filename="src/app/page.tsx"
+<h1>Ship great docs with Acme</h1>
+<p>Everything your team needs to get up and running, fast.</p>
+```
+
+**`src/app/docs/layout.tsx`** - The logo link text in the docs sidebar header. Find the anchor tag that wraps the logo and update the text:
+
+```tsx filename="src/app/docs/layout.tsx"
+<Link href="/" className="font-semibold text-foreground">
+  Acme Docs
+</Link>
+```
+
+**`src/app/globals.css`** - No text changes here, but if you want to swap the violet accent color to your brand color, update `--primary` and `--primary-hover`. See [Customizing](/docs/getting-started/customizing) for details.
+
+<Callout variant="tip">
+  Run a project-wide search for "DocsKit" to catch any remaining instances. In VS Code: `Cmd+Shift+F` (Mac) or `Ctrl+Shift+F` (Windows/Linux), search for `DocsKit`, include `src/**` in the files filter.
+</Callout>
+
+## Step 2 - Update the sidebar navigation
+
+Edit `src/config/nav.ts` to reflect your documentation structure. The `nav` array drives the entire left sidebar - the order of groups and items here is the order readers see.
+
+Here's a realistic example for a developer tool:
+
+```ts filename="src/config/nav.ts"
+import type { NavGroup } from "@/config/nav";
+
+export const nav: NavGroup[] = [
+  {
+    title: "Getting Started",
+    items: [
+      { title: "Introduction", href: "/docs/getting-started/introduction" },
+      { title: "Installation", href: "/docs/getting-started/installation" },
+      { title: "Authentication", href: "/docs/getting-started/authentication" },
+    ],
+  },
+  {
+    title: "Core Concepts",
+    items: [
+      { title: "How it works", href: "/docs/concepts/how-it-works" },
+      { title: "Data model", href: "/docs/concepts/data-model" },
+      { title: "Webhooks", href: "/docs/concepts/webhooks" },
+    ],
+  },
+  {
+    title: "API Reference",
+    items: [
+      { title: "REST API", href: "/docs/api/rest" },
+      { title: "SDK reference", href: "/docs/api/sdk" },
+      { title: "Rate limits", href: "/docs/api/rate-limits" },
+    ],
+  },
+  {
+    title: "Guides",
+    items: [
+      { title: "Migrate from v1", href: "/docs/guides/migrate-v1" },
+      { title: "Deploy to production", href: "/docs/guides/deploy" },
+    ],
+  },
+];
+```
+
+Every `href` value must match an MDX file in `content/docs/`. If you add a nav item without a corresponding MDX file, the build will succeed but the link will 404.
+
+## Step 3 - Write your first MDX page
+
+Create an MDX file at the path that matches your nav entry. If you added `{ href: "/docs/getting-started/authentication" }` to the nav, create this file:
+
+```mdx filename="content/docs/getting-started/authentication.mdx"
+# Authentication
+
+Acme uses API keys for authentication. All API requests must include your key
+in the `Authorization` header.
+
+## Getting your API key
+
+Log in to the [Acme dashboard](https://app.acme.dev) and navigate to
+**Settings > API Keys**. Click **Create new key** and copy the value - it is
+only shown once.
+
+<Callout variant="warning">
+  Treat your API key like a password. Never commit it to source control or
+  expose it in client-side JavaScript. Use environment variables on the server.
+</Callout>
+
+## Making an authenticated request
+
+```bash
+curl https://api.acme.dev/v1/projects \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## SDK setup
+
+Install the Acme SDK and pass your key during initialization:
+
+<Tabs>
+  <Tab label="pnpm"><pre><code>pnpm add @acme/sdk</code></pre></Tab>
+  <Tab label="npm"><pre><code>npm install @acme/sdk</code></pre></Tab>
+  <Tab label="yarn"><pre><code>yarn add @acme/sdk</code></pre></Tab>
+</Tabs>
+
+```ts filename="src/lib/acme.ts"
+import { AcmeClient } from "@acme/sdk";
+
+export const acme = new AcmeClient({
+  apiKey: process.env.ACME_API_KEY!,
+});
+```
+```
+
+The first `# Heading` in each MDX file becomes both the `<h1>` on the page and the `<title>` tag (combined with your metadata template). You do not need front matter.
+
+## Step 4 - Build and verify
+
+Run the production build:
+
+<Tabs>
+  <Tab label="pnpm"><pre><code>pnpm build</code></pre></Tab>
+  <Tab label="npm"><pre><code>npm run build</code></pre></Tab>
+  <Tab label="yarn"><pre><code>yarn build</code></pre></Tab>
+</Tabs>
+
+Preview the built site locally before deploying:
+
+```bash
+cd out && python3 -m http.server 3002
+```
+
+Open the served URL (e.g. [http://localhost:3002](http://localhost:3002)) and verify:
+
+- Your product name appears in the browser tab and sidebar
+- The sidebar shows your nav structure
+- New pages you created are accessible and render correctly
+
+<Callout variant="tip">
+  Want full-text search and syntax-highlighted code blocks? Both are in [DocsKit Pro](https://thekitbase.app/templates/docskit?utm_source=docskit-free&utm_medium=docs-content&utm_campaign=docskit).
+</Callout>
+
+## Step 5 - Deploy
+
+Push to GitHub and connect the repository to Vercel, Netlify, or your preferred static host. Set `NEXT_PUBLIC_SITE_URL` to your production domain in the host's environment variable settings.
+
+See [Installation - Deployment](/docs/getting-started/installation#deployment) for host-specific instructions.

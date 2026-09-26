@@ -1,0 +1,144 @@
+# Installation
+
+Get DocsKit Free running locally in under 10 minutes. This guide covers prerequisites, local setup, the project structure you'll find inside, environment configuration, and deployment options.
+
+## Prerequisites
+
+Before you start, make sure you have the following installed:
+
+- **Node.js 18.17 or later** - Check your version with `node -v`. Install from [nodejs.org](https://nodejs.org) or via a version manager like `nvm` or `fnm`.
+- **A package manager** - pnpm is recommended (faster installs, better monorepo support), but npm and yarn both work.
+
+To install pnpm if you don't already have it:
+
+```bash
+npm install -g pnpm
+```
+
+## Setup
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/thekitbase/docskit-free.git my-docs
+    cd my-docs
+    ```
+
+    Or click "Use this template" on GitHub to start your own repo from it.
+  </Step>
+  <Step title="Install dependencies">
+    <Tabs>
+  <Tab label="pnpm"><pre><code>pnpm install</code></pre></Tab>
+  <Tab label="npm"><pre><code>npm install</code></pre></Tab>
+  <Tab label="yarn"><pre><code>yarn install</code></pre></Tab>
+</Tabs>
+
+    This installs Next.js, next-mdx-remote, Tailwind CSS, and all other dependencies. Expect 30-60 seconds on a first install.
+  </Step>
+  <Step title="Start the development server">
+    <Tabs>
+  <Tab label="pnpm"><pre><code>pnpm dev</code></pre></Tab>
+  <Tab label="npm"><pre><code>npm run dev</code></pre></Tab>
+  <Tab label="yarn"><pre><code>yarn dev</code></pre></Tab>
+</Tabs>
+
+    The site is available at [http://localhost:3000](http://localhost:3000) (or whichever port your terminal shows, if 3000 is already in use). The homepage is at `/` and the docs are at `/docs`.
+  </Step>
+</Steps>
+
+## Project structure
+
+After installation, here's what you'll find:
+
+```
+my-docs/
+  content/
+    docs/                   # All MDX source files
+      getting-started/
+        introduction.mdx
+        installation.mdx
+        quick-start.mdx
+        customizing.mdx
+      components/
+        callout.mdx
+        code-block.mdx
+  src/
+    app/
+      globals.css           # CSS variables + Tailwind base styles
+      layout.tsx            # Root layout with metadata
+      page.tsx              # Homepage
+      docs/
+        layout.tsx          # Docs shell: sidebar + TOC wrapper
+        [[...slug]]/
+          page.tsx          # Dynamic route for all doc pages
+    components/
+      docs/
+        mdx/                # Callout, CodeBlock, Steps, Tabs
+        Sidebar.tsx         # Left navigation sidebar
+        TableOfContents.tsx # Right-side heading TOC
+    config/
+      nav.ts                # Sidebar navigation definition
+    lib/
+      get-content.ts        # MDX file reading utilities
+  next.config.ts            # Next.js configuration (static export)
+  tsconfig.json
+  package.json
+```
+
+## Environment variables
+
+DocsKit uses one environment variable for canonical URL generation:
+
+```bash filename=".env.local"
+NEXT_PUBLIC_SITE_URL=https://docs.yourproduct.com
+```
+
+Create a `.env.local` file in the project root with the above. In development, you can leave it unset - canonical URLs will fall back to a safe default. In production, set it to your actual domain so the `<link rel="canonical">` tags are correct.
+
+<Callout variant="note">
+  `NEXT_PUBLIC_` prefix is required because this variable is referenced in client-side code (the canonical URL is embedded in the page HTML). Never put secrets in `NEXT_PUBLIC_` variables.
+</Callout>
+
+## Building for production
+
+```bash
+pnpm build
+```
+
+Compiles all MDX files and generates a static export in `out/`.
+
+To preview the production build locally:
+
+```bash
+pnpm build
+npx serve out
+```
+
+Or with Python (no extra install needed):
+
+```bash
+pnpm build
+cd out && python3 -m http.server 3002
+```
+
+## Deployment
+
+### Vercel (recommended)
+
+Push your project to a GitHub, GitLab, or Bitbucket repository. Import it in the [Vercel dashboard](https://vercel.com/new), or use the one-click deploy button in the repo's README. Vercel detects Next.js automatically and applies the correct build settings.
+
+Set the `NEXT_PUBLIC_SITE_URL` environment variable in **Project Settings > Environment Variables** before your first production deployment.
+
+A `vercel.json` is included in the project root with the correct build settings.
+
+### Netlify
+
+Connect your repository in the Netlify dashboard. Set the build command to `pnpm build` and the publish directory to `out`. Add `NEXT_PUBLIC_SITE_URL` in **Site Settings > Environment Variables**.
+
+### Cloudflare Pages
+
+Use the Cloudflare Pages Git integration. Set the build command to `pnpm build` and the build output directory to `out`. Node.js version can be set via the `NODE_VERSION` environment variable (set it to `18`).
+
+### Static host (S3, GitHub Pages, etc.)
+
+Run `pnpm build` locally or in CI, then upload the contents of `out/` to any static file host. Because DocsKit uses `trailingSlash: true` in `next.config.ts`, each page is emitted as `page-name/index.html`, which works on virtually every static host without extra rewrite rules.

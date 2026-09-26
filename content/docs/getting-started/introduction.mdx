@@ -1,0 +1,62 @@
+# Introduction
+
+**DocsKit Free** is the open-source docs engine behind [DocsKit](https://thekitbase.app/templates/docskit) - a production-ready Next.js documentation template. This is the free, MIT-licensed core: the docs layout, MDX rendering, and the component set. It's genuinely usable as-is, not a crippled trial.
+
+## What problem does it solve?
+
+Most documentation tooling forces you into one of two bad positions: use a heavyweight platform with limited customization (Gitbook, Confluence), or spend two weeks hand-rolling a docs site before you can write a single word of actual documentation.
+
+DocsKit Free gets you a working docs site on day one - a sidebar, a table of contents, MDX with real components, dark and light mode - and because it's plain Next.js, you can customize every pixel without fighting a framework.
+
+## What's in the free version
+
+| Feature | Description |
+|---------|-------------|
+| MDX content | Write in Markdown with React components embedded anywhere |
+| `Callout`, `CodeBlock`, `Steps`, `Tabs` | The full MDX component set, not a subset |
+| Responsive layout | Left sidebar navigation + right-side table of contents |
+| Dark + light mode | No flash on load |
+| Static export | Deploys to Vercel, Netlify, Cloudflare Pages, or any host |
+| TypeScript config | Type-safe nav configuration - no YAML or JSON to manage |
+
+## What's Pro-only
+
+DocsKit [Pro](https://thekitbase.app/templates/docskit?utm_source=docskit-free&utm_medium=docs-content&utm_campaign=docskit) ($39, one-time) adds the parts that take real time to build well:
+
+- **Syntax highlighting** - Shiki-based, 100+ languages, filename tabs. Code blocks here render plain.
+- **Full-text search** - Pagefind, indexed at build time, zero server cost.
+- **A marketing homepage** - hero, features, pricing, FAQ, ready to customize.
+- **Configuration and API reference docs** - the deeper reference content.
+- Ongoing updates.
+
+<Callout variant="tip">
+  Comparing the two repos side by side is the fastest way to see exactly what Pro adds - this fork is deliberately not obfuscated.
+</Callout>
+
+## Architecture overview
+
+```
+content/
+  docs/                # Your MDX source files live here
+    getting-started/
+    components/
+src/
+  app/
+    page.tsx            # Minimal homepage
+    docs/
+      [[...slug]]/       # Catch-all route for all doc pages
+        page.tsx
+  components/
+    docs/
+      mdx/               # Callout, CodeBlock, Steps, Tabs
+  config/
+    nav.ts               # Sidebar navigation config
+out/                     # Generated static site (after build)
+```
+
+At build time, Next.js reads every MDX file in `content/docs/`, compiles it with `next-mdx-remote`, and emits a static HTML page.
+
+## Next steps
+
+- [Installation](/docs/getting-started/installation) - Set up the project locally
+- [Quick Start](/docs/getting-started/quick-start) - Replace branding and ship your first page
