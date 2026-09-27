@@ -4,6 +4,8 @@ The open-source core of [DocsKit](https://thekitbase.app/templates/docskit) - a 
 
 ![DocsKit Free screenshot](.github/screenshot.png)
 
+**[Live demo](https://docskit-free.vercel.app/)** &middot; [Deploy your own](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fthekitbase%2Fdocskit-free&project-name=docskit-free&repository-name=docskit-free)
+
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fthekitbase%2Fdocskit-free&project-name=docskit-free&repository-name=docskit-free)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
