@@ -42,7 +42,7 @@ const config: Record<
     border: "border-l-red-500",
     bg: "bg-red-500/[0.07] light:bg-red-50",
     iconClass: "text-red-400 light:text-red-500",
-    labelClass: "[&_strong]:text-red-400 light:[&_strong]:text-red-600",
+    labelClass: "[&_strong]:text-red-400 light:[&_strong]:text-red-700",
     label: "Danger",
   },
 };

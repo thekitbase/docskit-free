@@ -22,7 +22,7 @@ export default function DocsLayout({
           <div className="ml-auto flex items-center gap-3">
             <a
               href="https://thekitbase.app/templates/docskit?utm_source=docskit-free&utm_medium=docs-nav&utm_campaign=docskit"
-              className="hidden text-[13px] font-medium text-[var(--primary)] transition-opacity hover:opacity-80 sm:block"
+              className="hidden text-[13px] font-medium text-[var(--primary-ink)] transition-opacity hover:opacity-80 sm:block"
             >
               Get Pro →
             </a>
@@ -32,7 +32,10 @@ export default function DocsLayout({
       </header>
 
       <div className="mx-auto flex max-w-7xl gap-8 px-4 sm:px-6">
-        <aside className="hidden w-[var(--sidebar-width)] shrink-0 lg:block">
+        <aside
+          aria-label="Docs sidebar"
+          className="hidden w-[var(--sidebar-width)] shrink-0 lg:block"
+        >
           <div className="sticky top-14 max-h-[calc(100vh-3.5rem)] overflow-y-auto py-8 pr-4">
             <Sidebar />
           </div>

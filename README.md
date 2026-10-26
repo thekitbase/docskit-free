@@ -16,6 +16,7 @@ The open-source core of [DocsKit](https://thekitbase.app/templates/docskit) - a 
 - Dark and light mode, no flash on load
 - Static export - deploy to Vercel, Netlify, Cloudflare Pages, or any static host
 - TypeScript strict, no YAML/JSON config to manage
+- Audited to WCAG 2.2 AA in both themes at phone and desktop widths, with the check included (`npm run test:a11y`)
 
 ## What's in [DocsKit Pro](https://thekitbase.app/templates/docskit?utm_source=docskit-free&utm_medium=readme&utm_campaign=docskit) ($39, one-time)
 
@@ -41,6 +42,20 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) (or whichever port your terminal shows). The homepage is at `/`, docs at `/docs`.
 
 Full setup, deployment, and customization guide: run the dev server and visit `/docs`, or read the MDX source directly in [`content/docs/`](./content/docs).
+
+## Accessibility
+
+Every page passes a WCAG 2.2 AA check in light and dark mode, at desktop and phone widths, with the mobile navigation drawer checked open. The check ships in this repo, so you can run it again after you change something:
+
+```bash
+npx playwright install chromium   # first run only
+npm run build
+npm run test:a11y
+```
+
+It runs axe-core's WCAG 2.0, 2.1 and 2.2 A and AA rules, measures text contrast from the rendered page where axe can't (text over images and gradients), and tabs through each page to fail any focus stop without a visible focus indicator. It exits with an error if anything fails, so it works in CI too. The pages it checks are listed in [`a11y.config.mjs`](./a11y.config.mjs); add new routes there when you add a page.
+
+Two colour rules keep it passing: `--primary` is the fill behind white text and `--primary-ink` is the violet used as text, and wide code blocks and tables are keyboard-focusable so they can be scrolled without a mouse. It's the same check every [TheKitBase template](https://thekitbase.app/accessibility?utm_source=docskit-free&utm_medium=readme&utm_campaign=a11y) ships.
 
 ## Tech stack
 

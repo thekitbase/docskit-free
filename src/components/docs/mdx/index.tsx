@@ -12,14 +12,14 @@ export const mdxComponents: MDXComponents = {
   Tabs,
   Tab,
   h1: ({ children }: React.ComponentPropsWithoutRef<"h1">) => (
-    <h1 className="mb-4 mt-2 text-3xl font-bold text-[var(--foreground)] [&>a]:!text-[var(--foreground)] [&>a]:!no-underline [&>a]:transition-colors hover:[&>a]:!text-[var(--primary)]">
+    <h1 className="mb-4 mt-2 text-3xl font-bold text-[var(--foreground)] [&>a]:!text-[var(--foreground)] [&>a]:!no-underline [&>a]:transition-colors hover:[&>a]:!text-[var(--primary-ink)]">
       {children}
     </h1>
   ),
   h2: ({ children, id }: React.ComponentPropsWithoutRef<"h2">) => (
     <h2
       id={id}
-      className="mb-3 mt-8 scroll-mt-20 text-xl font-semibold text-[var(--foreground)] [&>a]:!text-[var(--foreground)] [&>a]:!no-underline [&>a]:transition-colors hover:[&>a]:!text-[var(--primary)]"
+      className="mb-3 mt-8 scroll-mt-20 text-xl font-semibold text-[var(--foreground)] [&>a]:!text-[var(--foreground)] [&>a]:!no-underline [&>a]:transition-colors hover:[&>a]:!text-[var(--primary-ink)]"
     >
       {children}
     </h2>
@@ -27,7 +27,7 @@ export const mdxComponents: MDXComponents = {
   h3: ({ children, id }: React.ComponentPropsWithoutRef<"h3">) => (
     <h3
       id={id}
-      className="mb-2 mt-6 scroll-mt-20 text-base font-semibold text-[var(--foreground)] [&>a]:!text-[var(--foreground)] [&>a]:!no-underline [&>a]:transition-colors hover:[&>a]:!text-[var(--primary)]"
+      className="mb-2 mt-6 scroll-mt-20 text-base font-semibold text-[var(--foreground)] [&>a]:!text-[var(--foreground)] [&>a]:!no-underline [&>a]:transition-colors hover:[&>a]:!text-[var(--primary-ink)]"
     >
       {children}
     </h3>
@@ -51,7 +51,7 @@ export const mdxComponents: MDXComponents = {
   code: ({ children, className }: React.ComponentPropsWithoutRef<"code">) => {
     if (!className) {
       return (
-        <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 font-mono text-[13px] text-[var(--primary)]">
+        <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 font-mono text-[13px] text-[var(--primary-ink)]">
           {children}
         </code>
       );
@@ -59,20 +59,28 @@ export const mdxComponents: MDXComponents = {
     return <code className={className}>{children}</code>;
   },
   pre: ({ children }: React.ComponentPropsWithoutRef<"pre">) => (
-    <pre className="my-4 overflow-x-auto rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-sm">
+    <pre
+      // biome-ignore lint/a11y/noNoninteractiveTabindex: a horizontally scrollable code block must be reachable by keyboard (WCAG 2.1.1)
+      tabIndex={0}
+      className="my-4 overflow-x-auto rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-sm"
+    >
       {children}
     </pre>
   ),
   a: ({ href, children }: React.ComponentPropsWithoutRef<"a">) => (
     <a
       href={href}
-      className="text-[var(--primary)] underline underline-offset-2 hover:text-[var(--primary-hover)]"
+      className="text-[var(--primary-ink)] underline underline-offset-2 hover:text-[var(--primary-hover)]"
     >
       {children}
     </a>
   ),
   table: ({ children }: React.ComponentPropsWithoutRef<"table">) => (
-    <div className="my-4 overflow-x-auto rounded-lg border border-[var(--border)]">
+    <div
+      // biome-ignore lint/a11y/noNoninteractiveTabindex: a horizontally scrollable table must be reachable by keyboard (WCAG 2.1.1)
+      tabIndex={0}
+      className="my-4 overflow-x-auto rounded-lg border border-[var(--border)]"
+    >
       <table className="w-full text-sm">{children}</table>
     </div>
   ),

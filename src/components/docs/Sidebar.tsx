@@ -24,7 +24,7 @@ export function Sidebar() {
                     href={item.href}
                     className={`group relative block rounded-md px-3 py-1.5 text-[14px] transition-all duration-150 ${
                       isActive
-                        ? "bg-[var(--primary)]/10 font-semibold text-[var(--primary)]"
+                        ? "bg-[var(--primary)]/10 font-semibold text-[var(--primary-ink)]"
                         : "text-[var(--muted-foreground)] hover:bg-[var(--muted)] hover:text-[var(--foreground)]"
                     }`}
                   >

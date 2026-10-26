@@ -35,9 +35,9 @@ export function Step({ title, children, index, isLast }: StepProps) {
         {!isLast && <div className="mt-1 w-0.5 flex-1 bg-[var(--border)]" />}
       </div>
       <div className="min-w-0 flex-1 pb-6">
-        <h4 className="mb-1.5 text-sm font-semibold text-[var(--foreground)]">
+        <h3 className="mb-1.5 text-sm font-semibold text-[var(--foreground)]">
           {title}
-        </h4>
+        </h3>
         <div className="text-sm leading-relaxed text-[var(--muted-foreground)]">
           {children}
         </div>

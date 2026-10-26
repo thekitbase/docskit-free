@@ -46,8 +46,8 @@ export function CodeBlock({ children, filename, className }: CodeBlockProps) {
           title={copied ? "Copied!" : "Copy code"}
           className={`absolute right-3 top-3 z-10 flex items-center gap-1.5 rounded-md border border-[var(--border)] bg-[var(--card)] px-2 py-1.5 text-[11px] font-medium transition-all duration-200 ${
             copied
-              ? "border-green-500/50 bg-green-500/10 text-green-400 opacity-100"
-              : "text-[var(--muted-foreground)] opacity-0 hover:border-[var(--primary)]/40 hover:text-[var(--foreground)] group-hover:opacity-100"
+              ? "border-green-500/50 bg-green-500/10 text-[var(--foreground)] opacity-100"
+              : "text-[var(--muted-foreground)] opacity-0 hover:border-[var(--primary)]/40 hover:text-[var(--foreground)] focus-visible:opacity-100 group-hover:opacity-100"
           }`}
         >
           {copied ? (

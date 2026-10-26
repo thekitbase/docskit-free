@@ -34,7 +34,10 @@ export function TableOfContents({ headings }: Props) {
   if (headings.length === 0) return null;
 
   return (
-    <aside className="hidden w-[var(--toc-width)] shrink-0 lg:block">
+    <aside
+      aria-label="On this page"
+      className="hidden w-[var(--toc-width)] shrink-0 lg:block"
+    >
       <div className="sticky top-16 pt-8">
         <p className="mb-3 text-[11px] font-bold uppercase tracking-widest text-[var(--muted-foreground)]">
           On this page
@@ -46,7 +49,7 @@ export function TableOfContents({ headings }: Props) {
                 href={`#${h.id}`}
                 className={`block text-[13px] transition-colors duration-150 ${
                   activeId === h.id
-                    ? "font-medium text-[var(--primary)]"
+                    ? "font-medium text-[var(--primary-ink)]"
                     : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
                 }`}
               >

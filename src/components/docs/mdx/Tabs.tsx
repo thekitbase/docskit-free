@@ -34,7 +34,7 @@ export function Tabs({ children }: { children: React.ReactNode }) {
             onClick={() => setActive(i)}
             className={`relative px-4 py-2.5 text-xs font-medium transition-colors duration-150 ${
               i === active
-                ? "text-[var(--primary)] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[var(--primary)] after:content-['']"
+                ? "text-[var(--primary-ink)] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[var(--primary)] after:content-['']"
                 : "text-[var(--muted-foreground)] hover:bg-[var(--muted)]/50 hover:text-[var(--foreground)]"
             }`}
           >

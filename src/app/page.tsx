@@ -53,7 +53,7 @@ export default function HomePage() {
       </header>
 
       <div className="mx-auto max-w-3xl px-6 py-20">
-        <p className="text-[13px] font-medium uppercase tracking-wide text-[var(--primary)]">
+        <p className="text-[13px] font-medium uppercase tracking-wide text-[var(--primary-ink)]">
           Free &middot; MIT licensed
         </p>
         <h1 className="mt-3 text-4xl font-bold leading-tight text-[var(--foreground)] sm:text-5xl">
@@ -63,7 +63,7 @@ export default function HomePage() {
           DocsKit Free is the open-source core of{" "}
           <a
             href="https://thekitbase.app/templates/docskit?utm_source=docskit-free&utm_medium=homepage&utm_campaign=docskit"
-            className="text-[var(--primary)] underline underline-offset-2"
+            className="text-[var(--primary-ink)] underline underline-offset-2"
           >
             DocsKit
           </a>
@@ -120,7 +120,7 @@ export default function HomePage() {
             </ul>
             <a
               href="https://thekitbase.app/templates/docskit?utm_source=docskit-free&utm_medium=homepage&utm_campaign=docskit"
-              className="mt-4 flex items-center gap-1.5 text-[13px] font-semibold text-[var(--primary)]"
+              className="mt-4 flex items-center gap-1.5 text-[13px] font-semibold text-[var(--primary-ink)]"
             >
               Get DocsKit Pro - $39 one-time
               <ArrowRight size={13} />
